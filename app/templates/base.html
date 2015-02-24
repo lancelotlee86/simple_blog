@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>
+            {{ title }}
+        </title>
+        <script src="/static/js/moment.min.sj"></script>
+    </head>
+
+    <body>
+        <h1>
+            Lancelot's Blog
+        </h1>
+        <hr>
+        <br>
+        <div name="navigation bar">
+            <a href = "/index">
+                Home
+            </a>
+            |
+            <a href = "/topic/programming">
+                Programming
+            </a>
+            |
+            <a href = "/topic/daily_life">
+                Daily life
+            </a>
+            |
+            <a href = "/about_me">
+                About me
+            </a>
+            |
+            <a href = "/message_board">
+                Message Board
+            </a>
+        </div>
+        <br>
+        <hr>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>
