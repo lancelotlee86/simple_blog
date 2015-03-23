@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TextAreaField
+from wtforms import StringField, BooleanField, TextAreaField, SelectMultipleField
 
 # validator is a function that can be attached to a field to perform validation on the data submitted by the user
 from wtforms.validators import DataRequired, Length
@@ -12,7 +12,12 @@ class PostForm(Form):
     '''
     title = StringField('title',validators=[DataRequired()])
     body = TextAreaField('body',validators=[DataRequired()])
-    #topic = 
+
+    #tags = SelectMultipleField('tags', choices = [('C++','C++'), ('Python','Python')])
+    tags = SelectMultipleField('tags', coerce = str)    # cause the choices is dynamic, so we put it in view function
+    tag_addition = StringField('tag_addition')
+
+    topics = SelectMultipleField('topics', coerce = str)    # watch out the 'str' here, don't write int!
 
 '''
 class EditForm(Form):

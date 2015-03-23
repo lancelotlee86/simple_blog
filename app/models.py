@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Post():
     '''
-    post contains: title,body,tags,views,comments
+    post contains: title, body, topic, tags, views, comments
     '''
     def __init__(self):
         pass
@@ -32,7 +32,7 @@ class Post():
         return the post by id provided
         used in post page
         '''
-        return db.posts.find_one({'id':post_id})
+        return db.posts.find_one( {'id':post_id} )
 
     @staticmethod
     def get_posts_by_tag(tag):
@@ -48,7 +48,7 @@ class Post():
         return all posts by the topic given
         used in particular topic given
         '''
-        return db.posts.find({'topic':topic})
+        return db.posts.find({'topics':topic})
 
     @staticmethod
     def get_posts_count():
@@ -64,22 +64,55 @@ class Post():
         '''
         db.posts.update({'id':post_id},{'$inc':{'views':1}})
         return True
-'''
-    @staticmethod
-    def get_posts_by_user(email):
-        posts_list = []
-        posts = db.posts.find({'author.email':email})
-        for post in posts:
-            posts_list.append(post)
-        return posts_list
+
+
+class Info():
+    '''
+    Info contains:
+        the number of the posts that I ever post (will used for post_id)
+        list of topics
+        list of tags
+    '''
+    def __init__(self):
+        pass
 
     @staticmethod
-    def get_posts_by_followed(user):
-        posts = []
-        for user_followed in user.followed: # user_followed is exactly the email, so pass it to get_posts_by_user()
-            posts_by_user = Post.get_posts_by_user(user_followed)
-            for posts_col in posts_by_user:
-                posts.append(posts_col)
-            #posts.append(Post.get_posts_by_user(user_followed))
-        return posts
-'''
+    def get_new_post_id():
+        '''
+        when post a new post, we use it to get a absulote number of the new post
+        and refresh the infomation of abs count
+        '''
+        db.info.update( { 'content':'post_count_abs' }, { "$inc" : { 'post_count_abs' : 1 } } )
+        return db.info.find_one( { 'content':'post_count_abs' } )['post_count_abs']   # return a num
+
+    @staticmethod
+    def add_new_tag(tag):
+        '''
+        add new tag to tags list
+        '''
+        db.info.update( {'content':'tags'}, { "$addToSet" : { 'tags' : tag } } )
+
+    @staticmethod
+    def get_all_tags():
+        '''
+        get all tags from mongodb
+        return a list of tags: [ 'tag1', 'tag2', ... ]
+        '''
+        list_of_tags = db.info.find_one( { 'content':'tags' } )['tags']
+        return list_of_tags
+
+    @staticmethod
+    def add_new_topic(topic):
+        '''
+        add new topic to topics list
+        '''
+        db.info.update( {'content':'topics'}, { "$addToSet" : { 'topics' : topic } } )
+
+    @staticmethod
+    def get_all_topics():
+        '''
+        get all topics from mongodb
+        return a list of topics: [ 'topic1', 'topic2', ... ]
+        '''
+        list_of_topics = db.info.find_one( { 'content':'topics' } )['topics']
+        return list_of_topics

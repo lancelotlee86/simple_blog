@@ -1,7 +1,7 @@
 from flask import render_template,flash,redirect,session,url_for,request,g
 from app import app,db    # db and posts are defined in __init__.py
 from .forms import PostForm    # actually from the form.py file
-from .models import Post
+from .models import Post, Info
 from datetime import datetime
 from .auth import requires_auth
 
@@ -47,7 +47,7 @@ def tag(tag):
     /tag/python means all posts with tag python
     '''
     posts = Post.get_posts_by_tag(tag)
-    return render_template('tag.html',      #------------------------------------unwritten
+    return render_template('tag.html',
         posts = posts,
         tag = tag)
 
@@ -73,10 +73,45 @@ def admin():
     add post, delete post, etc..
     '''
     form = PostForm()
+
+    # change tags list into orderd pair list
+    tags = Info.get_all_tags()
+    tags_pair = []
+    for tag in tags:
+        tags_pair.append( (tag,tag) )
+    form.tags.choices = tags_pair
+
+    # change topics list into orderd pair list
+    topics = Info.get_all_topics()
+    topics_pair = []
+    for topic in topics:
+        topics_pair.append( (topic,topic) )
+    form.topics.choices = topics_pair
+
     if form.validate_on_submit():
-        post_record = { 'id':(Post.get_posts_count()+int(1)), 'tags':[], 'timestamp':datetime.utcnow(), 'views':0, 'title':form.title.data, 'body':form.body.data }
+        if form.tag_addition.data != '':
+            tags = form.tags.data + [form.tag_addition.data]
+        else:
+            tags = form.tags.data
+
+        post_record = {
+            'id' : Info.get_new_post_id(),
+            'tags' : tags,
+            'topics' : form.topics.data,
+            'timestamp' : datetime.utcnow(),
+            'views' : 0,
+            'title' : form.title.data,
+            'body' : form.body.data
+        }
         Post.insert_post(post_record)
+
+        if form.tag_addition.data is not None:
+            '''
+            if we have a tag_addition, we need add this tag to db.info
+            '''
+            Info.add_new_tag(form.tag_addition.data)
         flash('Your post is now live!')
         return redirect(url_for('admin'))
+
     return render_template('admin.html',
         form = form)

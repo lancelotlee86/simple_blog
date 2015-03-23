@@ -16,9 +16,12 @@
         <tr>
             <td>
                 topic:
-                <a href="{{ url_for('topic',topic = post.topic) }}">
-                    {{ post.topic }}
-                </a>
+                {% for topic in post.topics %}
+                    <a href="{{ url_for('topic',topic = topic) }}">
+                        {{ topic }}
+                    </a>
+                    |
+                {% endfor %}
             </td>
             <td>
                 tags:
