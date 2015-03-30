@@ -5,8 +5,26 @@
     <p>
         This is the page to leave message.
     </p>
-    <p>
-        I will finish is later.
-    </p>
+    <form action="" method="post" name="message">
+        <p>
+            name: {{ form.visitor(size=50,maxlength=100) }}
+        </p>
+        <p>
+            content: {{ form.message }}
+        </p>
+        <p>
+            <input type="submit" value="Leave Message!">
+        </p>
+    </form>
+
+    <h2>
+        The messages list:
+    </h2>
+
+    {% for message in messages %}
+        <p>
+            {{ message.visitor }} says: {{ message.message }}
+        </p>
+    {% endfor %}
 
 {% endblock %}

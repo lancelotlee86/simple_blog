@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- admin page only by me, add post, delete posts, etc.. -->
     <form action="" method="post" name="post">
         {{ form.hidden_tag() }}
         <table>
@@ -12,7 +11,7 @@
             </tr>
             <tr>
                 <td>
-                    {{ form.title(size=50,maxlength=100) }}
+                    {{ form.title(value = post.title) }}
                 </td>
                 <td>
                     {% for error in form.title.errors %}
@@ -25,7 +24,7 @@
             </tr>
             <tr>
                 <td>
-                    {{ form.body(size=70,maxlength=5000) }}
+                    {{ form.body }}
                 </td>
                 <td>
                     {% for error in form.body.errors %}
@@ -61,21 +60,4 @@
             </tr>
         </table>
     </form>
-
-    <h2>
-        The list of posts
-    </h2>
-    {% for post in posts %}
-        {% include 'post_label.html' %}
-        <div>
-            <a href="{{ url_for('post_remove', post_id=post.id) }}">
-                remove
-            </a>
-            |
-            <a href="{{ url_for('post_edit', post_id=post.id) }}">
-                edit
-            </a>
-        </div>
-    {% endfor %}
-
 {% endblock %}

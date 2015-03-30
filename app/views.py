@@ -1,7 +1,7 @@
 from flask import render_template,flash,redirect,session,url_for,request,g
 from app import app,db    # db and posts are defined in __init__.py
-from .forms import PostForm    # actually from the form.py file
-from .models import Post, Info
+from .forms import PostForm, MessageForm    # actually from the form.py file
+from .models import Post, Info, Message
 from datetime import datetime
 from .auth import requires_auth
 
@@ -63,14 +63,64 @@ def message_board():
     '''
     show the message_board page
     '''
-    return render_template('message_board.html')
+    form = MessageForm()
+    messages = Message.get_all_messages()
 
-@app.route('/admin', methods=['GET','POST'])
+    return render_template('message_board.html',
+        form = form,
+        messages = messages)
+
+@app.route('/message_board', methods=["POST"])
+def save_message():
+    '''
+    save the message the user submit
+    '''
+    form = MessageForm()
+    print(form.visitor.data)
+    print(form.message.data)
+    print('a')
+    message_record = {
+        'visitor' : form.visitor.data,
+        'message' : form.message.data,
+        'timestamp' : datetime.utcnow()
+    }
+    Message.insert_message(message_record)
+    flash('Your message is now live!')
+    return redirect(url_for('message_board'))
+
+@app.route('/admin')
 @requires_auth
 def admin():
     '''
     turn to admin page
-    add post, delete post, etc..
+    delete post
+    '''
+    form = PostForm()
+    posts = Post.get_all_posts()
+
+    # change tags list into orderd pair list
+    tags = Info.get_all_tags()
+    tags_pair = []
+    for tag in tags:
+        tags_pair.append( (tag,tag) )
+    form.tags.choices = tags_pair
+
+    # change topics list into orderd pair list
+    topics = Info.get_all_topics()
+    topics_pair = []
+    for topic in topics:
+        topics_pair.append( (topic,topic) )
+    form.topics.choices = topics_pair
+
+    return render_template('admin.html',
+        form = form,
+        posts = posts)
+
+@app.route('/admin', methods=["POST"])
+@requires_auth
+def submit_post():
+    '''
+    only for post a post in the web-form
     '''
     form = PostForm()
 
@@ -93,11 +143,14 @@ def admin():
             tags = form.tags.data + [form.tag_addition.data]
         else:
             tags = form.tags.data
-
+        if form.topic_addition.data != '':
+            topics = form.topics.data + [form.topic_addition.data]
+        else:
+            topics = form.topics.data
         post_record = {
             'id' : Info.get_new_post_id(),
             'tags' : tags,
-            'topics' : form.topics.data,
+            'topics' : topics,
             'timestamp' : datetime.utcnow(),
             'views' : 0,
             'title' : form.title.data,
@@ -110,8 +163,156 @@ def admin():
             if we have a tag_addition, we need add this tag to db.info
             '''
             Info.add_new_tag(form.tag_addition.data)
+        if form.topic_addition.data is not None:
+            '''
+            if we have a topic_addition, we need add this topic to db.info
+            '''
+            Info.add_new_topic(form.topic_addition.data)
+
         flash('Your post is now live!')
         return redirect(url_for('admin'))
 
+
+"""
+@app.route('/admin', methods=['GET','POST'])
+@requires_auth
+def admin():
+    '''
+    turn to admin page
+    add post, delete post, etc..
+    '''
+
+    form = PostForm()
+    form.title.data = 'avcc'    #test
+    form.tags.data = ['programming']    #test
+    posts = Post.get_all_posts()
+
+    # change tags list into orderd pair list
+    tags = Info.get_all_tags()
+    tags_pair = []
+    for tag in tags:
+        tags_pair.append( (tag,tag) )
+    form.tags.choices = tags_pair
+
+    # change topics list into orderd pair list
+    topics = Info.get_all_topics()
+    topics_pair = []
+    for topic in topics:
+        topics_pair.append( (topic,topic) )
+    form.topics.choices = topics_pair
+    print('d')
+
+    if form.validate_on_submit():
+        print('a')
+        if form.tag_addition.data != '':
+            tags = form.tags.data + [form.tag_addition.data]
+        else:
+            tags = form.tags.data
+
+        post_record = {
+            'id' : Info.get_new_post_id(),
+            'tags' : tags,
+            'topics' : form.topics.data,
+            'timestamp' : datetime.utcnow(),
+            'views' : 0,
+            'title' : form.title.data,
+            'body' : form.body.data
+        }
+        print('b')
+        Post.insert_post(post_record)
+
+        if form.tag_addition.data is not None:
+            '''
+            if we have a tag_addition, we need add this tag to db.info
+            '''
+            Info.add_new_tag(form.tag_addition.data)
+        flash('Your post is now live!')
+        print('c')
+        return redirect(url_for('admin'))
+    print('e')
     return render_template('admin.html',
-        form = form)
+        form = form,
+        posts = posts)
+"""
+
+@app.route('/post/<post_id>/remove')
+def post_remove(post_id):
+    '''
+    remove a post by the given id
+    '''
+    Post.remove_post_by_id(int(post_id))
+    flash('Your post have been removed!')
+    return redirect(url_for('admin'))
+
+@app.route('/post/<post_id>/edit')
+def post_edit(post_id):
+    '''
+    edit a post by the given id
+    '''
+    form = PostForm()
+    post = Post.get_post_by_id(int(post_id))
+    '''
+    the following codes need rebuild
+    '''
+    # change tags list into orderd pair list
+    tags = Info.get_all_tags()
+    tags_pair = []
+    for tag in tags:
+        tags_pair.append( (tag,tag) )
+    form.tags.choices = tags_pair
+    # change topics list into orderd pair list
+    topics = Info.get_all_topics()
+    topics_pair = []
+    for topic in topics:
+        topics_pair.append( (topic,topic) )
+    form.topics.choices = topics_pair
+
+    form.body.data = post['body']
+
+    return render_template('edit.html',
+        form = form,
+        post = post)
+
+@app.route('/post/<post_id>/edit', methods=['POST'])
+def update_post_edit(post_id):
+    '''
+    edit a post by the given id
+    '''
+    form = PostForm()
+    post = Post.get_post_by_id(int(post_id))
+    '''
+    the following codes need rebuild
+    '''
+    # change tags list into orderd pair list
+    tags = Info.get_all_tags()
+    tags_pair = []
+    for tag in tags:
+        tags_pair.append( (tag,tag) )
+    form.tags.choices = tags_pair
+    # change topics list into orderd pair list
+    topics = Info.get_all_topics()
+    topics_pair = []
+    for topic in topics:
+        topics_pair.append( (topic,topic) )
+    form.topics.choices = topics_pair
+
+    form.body.data = post['body']
+
+    if form.validate_on_submit():
+        if form.tag_addition.data != '':
+            tags = form.tags.data + [form.tag_addition.data]
+        else:
+            tags = form.tags.data
+        if form.topic_addition.data != '':
+            topics = form.topics.data + [form.topic_addition.data]
+        else:
+            topics = form.topics.data
+        new_post_record = {
+            'id' : int(post_id),
+            'tags' : tags,
+            'topics' : topics,
+            'last_edit_time' : datetime.utcnow(),
+            'title' : form.title.data,
+            'body' : form.body.data}
+        Post.update_post(new_post_record)
+        return redirect(url_for('post',post_id = post['id']))

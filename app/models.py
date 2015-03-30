@@ -65,6 +65,30 @@ class Post():
         db.posts.update({'id':post_id},{'$inc':{'views':1}})
         return True
 
+    @staticmethod
+    def remove_post_by_id(post_id):
+        '''
+        remove a post by the given id
+        '''
+        db.posts.remove( { 'id' : post_id})
+
+    @staticmethod
+    def update_post(new_post_record):
+        '''
+        update post by the new post dict given
+        new post record contains id
+        '''
+        db.posts.update( {'id':new_post_record['id']},
+            {"$set" : {
+                'title' : new_post_record['title'],
+                'body' : new_post_record['body'],
+                'tags' : new_post_record['tags'],
+                'topics' : new_post_record['topics'],
+                'last_edit_time' : new_post_record['last_edit_time']
+                }
+            }
+        )
+
 
 class Info():
     '''
@@ -116,3 +140,23 @@ class Info():
         '''
         list_of_topics = db.info.find_one( { 'content':'topics' } )['topics']
         return list_of_topics
+
+class Message():
+    '''
+    Message contains:
+        name
+        message
+    '''
+    @staticmethod
+    def insert_message(message_record):
+        '''
+        insert message record into mongodb
+        '''
+        db.message_board.insert(message_record)
+
+    @staticmethod
+    def get_all_messages():
+        '''
+        return a dict with all messages
+        '''
+        return db.message_board.find()

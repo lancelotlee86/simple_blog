@@ -18,6 +18,7 @@ class PostForm(Form):
     tag_addition = StringField('tag_addition')
 
     topics = SelectMultipleField('topics', coerce = str)    # watch out the 'str' here, don't write int!
+    topic_addition = StringField('topic_addition')
 
 '''
 class EditForm(Form):
@@ -39,3 +40,7 @@ class EditForm(Form):
             return False
         return True
 '''
+
+class MessageForm(Form):
+    visitor = StringField('visitor', validators=[DataRequired()])
+    message = TextAreaField('message', validators=[DataRequired()])
