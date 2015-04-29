@@ -3,7 +3,7 @@
     <table>
         <tr valign = "top">
             <td>
-                <a href = "{{ url_for('post',post_id = post.id)}}">
+                <a href = "{{ url_for('post',post_id = post.id | int) }}"> <!-- 这里用了jinja2的过滤器 -->
                     <h1>
                         {{ post.title }}
                     </h1>

@@ -1,61 +1,64 @@
 <html>
-    <head>
-        <title>
-            {{ title }}
-        </title>
-        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <style type='text/css'>
-            body {
-                background-color: #CCC;
-            }
-        </style>
-        <!--<script src="/static/js/moment.min.sj"></script>-->
-    </head>
 
-    <body>
-        <h1>
-            Lancelot's Blog
-        </h1>
-        <hr>
-        <br>
-        <div name="navigation bar">
-            <a href = "/index">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <style type='text/css'>
+    body {
+      background-color: #CCC;
+    }
+  </style>
+  <!--<script src="/static/js/moment.min.sj"></script>-->
+</head>
+
+<body>
+  <h1>
+    Lancelot's Blog
+  </h1>
+  <hr>
+  <br>
+  <div name="navigation bar">
+    <a href="/index">
+
                 Home
-            </a>
-            |
-            <a href = "/topic/programming">
+
+            </a> |
+    <a href="/topic/programming">
+
                 Programming
-            </a>
-            |
-            <a href = "/topic/daily_life">
+
+            </a> |
+    <a href="/topic/daily_life">
+
                 Daily life
-            </a>
-            |
-            <a href = "/about_me">
+
+            </a> |
+    <a href="/about_me">
+
                 About me
-            </a>
-            |
-            <a href = "/message_board">
+
+            </a> |
+    <a href="/message_board">
+
                 Message Board
+
             </a>
-        </div>
-        <br>
-        <hr>
+  </div>
+  <br>
+  <hr> {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>
+      {{ message }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% endwith %} {% block content %} {% endblock %}
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+</body>
 
-        {% block content %}
-        {% endblock %}
-
-    </body>
 </html>
