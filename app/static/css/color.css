@@ -1,0 +1,27 @@
+body {
+  background-color: #CCC;
+}
+
+.post_label .post_title {
+  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post_title:link {
+  /* :link之前不一定是 a 哦 */
+  color: #3f3f3f;
+}
+
+.post_title:visited {
+  /* 用模板的时候，应该是链接被识别成 visited 了 */
+  color: #3f3f3f;
+}
+
+.post_title:hover {
+  color: #3f3f3f;
+}
+
+.post_title:active {
+  color: #3f3f3f;
+}

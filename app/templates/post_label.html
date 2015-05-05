@@ -1,40 +1,19 @@
 <!-- this is a piece label of a post -->
-<p>
-    <table>
-        <tr valign = "top">
-            <td>
-                <a href = "{{ url_for('post',post_id = post.id | int) }}"> <!-- 这里用了jinja2的过滤器 -->
-                    <h1>
-                        {{ post.title }}
-                    </h1>
-                </a>
-            </td>
-            <td>
-                {{ post.views }} views
-            </td>
-        </tr>
-        <tr>
-            <td>
-                topic:
-                {% for topic in post.topics %}
-                    <a href="{{ url_for('topic',topic = topic) }}">
-                        {{ topic }}
-                    </a>
-                    |
-                {% endfor %}
-            </td>
-            <td>
-                tags:
-                {% for tag in post.tags %}
-                    <a href="{{ url_for('tag',tag = tag) }}">
-                        {{ tag }}
-                    </a>
-                    |
-                {% endfor %}
-            </td>
-            <td>
-                {{ post.timestamp }}
-            </td>
-        </tr>
-    </table>
-</p>
+
+<div class="post_label">
+  <a class="post_title" href="{{ url_for('post',post_id = post.id | int) }}">{{ post.title }}</a>
+  <div class="article-info">
+    <i class="fa fa-cubes"></i>
+      {% for topic in post.topics %}
+        <a href="{{ url_for('topic',topic = topic) }}">{{ topic }}</a>,
+      {% endfor %}
+    <i class="fa fa-tags"></i>
+      {% for tag in post.tags %}
+        <a href="{{ url_for('tag',tag = tag) }}">{{ tag }}</a>,
+      {% endfor %}
+    <i class="fa fa-book"></i>
+      {{ post.views }}
+    <i class="fa fa-calendar"></i>
+    <span class="time_from_now">{{ post.timestamp }}</span>
+  </div>
+</div>

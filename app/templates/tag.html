@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 
-<p>
+  <p>
     All posts with the "{{ tag }}" tag:
-</p>
+  </p>
 
-<!-- below is the post label, display some short information one by one -->
+  <!-- below is the post label, display some short information one by one -->
+  <ul class="post_labels">
     {% for post in posts %}
-        {% include 'post_label.html' %}
+      <li>{% include 'post_label.html' %}</li>
     {% endfor %}
-
+  </ul>
 {% endblock %}
