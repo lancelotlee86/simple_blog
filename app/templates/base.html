@@ -22,75 +22,46 @@
 </head>
 
 <body>
-  <h1>
-    &nbspLancelot's Blog
-  </h1>
+  <div class="container">
+    <h1>
+      &nbspLancelot's Blog
+    </h1>
 
-  <!-- 以前的navigation bar
-  <div name="navigation bar">
-    <a href="/index">
-
-                Home
-
-            </a> |
-    <a href="/topic/programming">
-
-                Programming
-
-            </a> |
-    <a href="/topic/daily_life">
-
-                Daily life
-
-            </a> |
-    <a href="/about_me">
-
-                About me
-
-            </a> |
-    <a href="/message_board">
-
-                Message Board
-
-            </a>
-  </div>
-  -->
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/index">Home</a>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/index">Home</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li id="programming"><a href="/topic/programming">Programming</a></li>
+            <li><a href="/topic/daily_life">Daily life</a></li>
+            <li><a href="/about_me">About me</a></li>
+            <li><a href="/message_board">Message Board</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
       </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="/topic/programming">Programming</a></li>
-          <li><a href="/topic/daily_life">Daily life</a></li>
-          <li><a href="/about_me">About me</a></li>
-          <li><a href="/message_board">Message Board</a></li>
+      <!--/.container-fluid -->
+    </nav>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
         </ul>
-      </div>
-      <!--/.nav-collapse -->
-    </div>
-    <!--/.container-fluid -->
-  </nav>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+      {% endif %}
+    {% endwith %}
 
-  {% block content %}
-  {% endblock %}
-
+    {% block content %}{% endblock %}
+  </div>
 </body>
 
 </html>
