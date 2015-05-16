@@ -5,3 +5,52 @@
 .post_labels {
   list-style: none;
 }
+
+/*
+ * Override Bootstrap's default container.
+*/
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+.row {
+  min-width: 200px;
+  max-width: 790px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #333;
+}
+
+.blog-post-title {
+  margin-bottom: 5px;
+  font-size: 40px;
+}
+
+.article-info {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+/*
+.container {
+  min-width: 200px;
+  max-width: 960px;
+}
+
+.container .blog-post {
+  min-width: 200px;
+  max-width: 790px;
+}
+*/

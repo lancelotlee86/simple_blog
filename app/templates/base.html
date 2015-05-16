@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }}</title>
   <!-- Jquery -->
-  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <script src="../static/js/jquery-1.11.3.min.js"></script>
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
   <!-- Font awesome -->
-  <link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+  <link href="../static/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- 自己的 css -->
   <link rel="stylesheet" href="../static/css/css.css">
   <!-- moment.js -->
-  <script src="http://cdn.bootcss.com/moment.js/2.10.2/moment-with-locales.js"></script>
+  <script src="../static/js/moment-with-locales.js"></script>
   <!-- 自己的 js -->
   <script src="../static/js/js.js"></script>
 </head>
@@ -50,6 +50,7 @@
       </div>
       <!--/.container-fluid -->
     </nav>
+
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
