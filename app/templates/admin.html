@@ -4,62 +4,47 @@
 <!-- admin page only by me, add post, delete posts, etc.. -->
     <form action="" method="post" name="post">
         {{ form.hidden_tag() }}
-        <table>
-            <tr>
-                <td>
-                    Write a post:
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form.title(size=50,maxlength=100) }}
-                </td>
-                <td>
-                    {% for error in form.title.errors %}
-                        <span style="color:red;">
-                            [{{ error }}]
-                        </span>
-                        <br>
-                    {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form.body(size=70,maxlength=5000) }}
-                </td>
-                <td>
-                    {% for error in form.body.errors %}
-                        <span style="color:red;">
-                            [{{ error }}]
-                        </span>
-                        <br>
-                    {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    choose topics: {{ form.topics }}
-                </td>
-                <td>
-                    add a new topic: {{ form.topic_addition }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    choose tags: {{ form.tags }}
-                </td>
-                <td>
-                    add a new tag: {{ form.tag_addition }}
-                </td>
-
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Post!">
-                </td>
-            </tr>
-        </table>
+          <h2>Write a post here!</h2>
+          <div class="form-group">
+            <label for="title">Title</label>
+            {{ form.title(maxlength=100,type="text",class="form-control",placeholder="Enter title") }}
+            <!-- 不需要添加 id 属性，在定义 form 时，WTForm 会自动添加 id 和 name 属性， 在这里都为 "title" -->
+          </div>
+          <!-- error message goes here -->
+          {% for error in form.title.errors %}
+              <span style="color:red;">
+                  [{{ error }}]
+              </span>
+              <br>
+          {% endfor %}
+          <div class="form-group">
+            <label for="body">Body</label>
+            {{ form.body(type="text",class="form-control",placeholder="Enter body") }}
+          </div>
+          <!-- error message goes here -->
+          {% for error in form.body.errors %}
+              <span style="color:red;">
+                  [{{ error }}]
+              </span>
+              <br>
+          {% endfor %}
+          <div class="form-group">
+            <label for="topics">choose topics</label>
+            {{ form.topics(class="form-control") }}
+          </div>
+          <div class="form-group">
+            <label for="topic_addition">add a new topic</label>
+            {{ form.topic_addition(class="form-control") }}
+          </div>
+          <div class="form-group">
+            <label for="tags">choose tags</label>
+            {{ form.tags(class="form-control") }}
+          </div>
+          <div class="form-group">
+            <label for="tag_addition">add a new tag</label>
+            {{ form.tag_addition(class="form-control") }}
+          </div>
+          <input class="btn btn-default" type="submit" value="Post!">
     </form>
 
     <h2>

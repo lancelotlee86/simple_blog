@@ -5,11 +5,11 @@
   <div class="article-info">
     <i class="fa fa-cubes"></i>
       {% for topic in post.topics %}
-        <a href="{{ url_for('topic',topic = topic) }}">{{ topic }}</a>,
+        <a class="post_topic" href="{{ url_for('topic',topic = topic) }}">{{ topic }}</a>,
       {% endfor %}
     <i class="fa fa-tags"></i>
       {% for tag in post.tags %}
-        <a href="{{ url_for('tag',tag = tag) }}">{{ tag }}</a>,
+        <a class="post_tag" href="{{ url_for('tag',tag = tag) }}">{{ tag }}</a>,
       {% endfor %}
     <i class="fa fa-book"></i>
       {{ post.views }}

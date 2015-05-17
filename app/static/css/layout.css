@@ -1,3 +1,7 @@
+.website_icon {
+  font-size: 45px;
+}
+
 .fa {
   margin-left: 4px;
 }
@@ -43,6 +47,11 @@ h6, .h6 {
   margin-top: 15px;
   margin-bottom: 20px;
 }
+
+.container {
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
 /*
 .container {
   min-width: 200px;
@@ -54,3 +63,13 @@ h6, .h6 {
   max-width: 790px;
 }
 */
+
+.a_piece_of_message {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* <textarea>中的文章内容输入框，id 为 body */
+#body{
+  height: 400px;
+}

@@ -2,29 +2,28 @@
 
 {% block content %}
 
-    <p>
-        This is the page to leave message.
-    </p>
+    <div style="padding-top:10px;padding-bottom:30px;font-size:20px">Welcome to my website. Leave your message here!</div>
     <form action="" method="post" name="message">
-        <p>
-            name: {{ form.visitor(size=50,maxlength=100) }}
-        </p>
-        <p>
-            content: {{ form.message }}
-        </p>
-        <p>
-            <input type="submit" value="Leave Message!">
-        </p>
+        <div class="form-group">
+          <label for="message_boardNameInput">Name</label>
+          {{ form.visitor(type="text",class="form-control",id="message_boardNameInput",placeholder="Enter name") }}
+        </div>
+        <div class="form-group">
+          <label for="message_boardContentInput">Content</label>
+          {{ form.message(class="form-control",id="message_boardContentInput",placeholder="Enter content") }}
+        </div>
+        <input class="btn btn-default" type="submit" value="Leave Message!">
     </form>
 
     <h2>
         The messages list:
     </h2>
-
-    {% for message in messages %}
-        <p>
-            {{ message.visitor }} says: {{ message.message }}
-        </p>
-    {% endfor %}
+    <div class="message_list">
+      {% for message in messages %}
+          <div class="a_piece_of_message">
+              {{ message.visitor }} says: {{ message.message }}
+          </div>
+      {% endfor %}
+    </div>
 
 {% endblock %}

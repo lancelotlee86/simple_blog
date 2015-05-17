@@ -1,5 +1,5 @@
 body {
-  background-color: #CCC;
+  background-color: #eee;
 }
 
 .post_label .post_title {
@@ -28,4 +28,21 @@ body {
 
 .here {
   background-color: black;
+}
+
+/* CSS3 将留言列表的奇偶行用背景颜色隔开 */
+.message_list div:nth-child(even) {
+  background-color: #FFF;
+}
+
+.article-info{
+  color: #999999;
+}
+
+.post_tag{
+  color: #999999;
+}
+
+.post_topic {
+  color: #999999;
 }
