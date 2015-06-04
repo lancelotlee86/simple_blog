@@ -76,9 +76,9 @@ def save_message():
     save the message the user submit
     '''
     form = MessageForm()
-    print(form.visitor.data)
-    print(form.message.data)
-    print('a')
+    # print(form.visitor.data) form的信息还是可以访问的
+    # print(form.message.data)
+    # print(request.form['visitor']) 可以这么访问post的数据
     message_record = {
         'visitor' : form.visitor.data,
         'message' : form.message.data,
